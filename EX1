@@ -1,3 +1,4 @@
+// Grade
 package javaapplication2;
 
 import java.util.*;
@@ -30,3 +31,37 @@ public class JavaApplication2 {
     }
     
 }
+
+
+
+
+// sum integers div by 7 btwn 100 to 700
+package javaapplication3;
+
+/**
+ *
+ * @author admin
+ */
+import java.util.*;
+class integer{
+    void divbyseven(){
+        int sum = 0;
+        for(int i=100; i<700;i++ ){
+            if(i%7==0){
+                sum = sum+i;
+            }
+    }
+        System.out.println(sum);
+    }
+}
+public class JavaApplication3 {
+    public static void main(String[] args) {
+        integer s = new integer();
+        s.divbyseven();
+    }
+    
+}
+
+
+
+
