@@ -1,0 +1,32 @@
+package javaapplication2;
+
+import java.util.*;
+ class Student{
+    int marks;
+    void grade(int m){
+        if(m>=3 && m<=5){
+            System.out.println("poor");
+        }
+        if(m>=6&&m<=7){
+            System.out.println("Good");
+        }
+        if(m>=8&&m<=9){
+            System.out.println("Very good");
+        }
+        
+    }
+}
+public class JavaApplication2 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        System.out.println("Enter marks: ");
+        Scanner m  = new Scanner(System.in);
+        int mark = m.nextInt();
+        Student s = new Student();
+        s.grade(mark);
+    }
+    
+}
