@@ -12,12 +12,11 @@ public class JavaApplication1 {
     public static void main(String[] args){
         Mamals obj = new Mamals();
         obj.cat();
-        obj.Dog();
+        obj.Dog1();
+        obj.Dog2();
     }    
     }    
     
-     
-
 class Animal{
     Animal(){
     String name = "Animals-->Mamals";
@@ -26,9 +25,12 @@ class Animal{
 }
 class Mamals extends Animal{
     void cat(){
-        System.out.println("This section is for cats");
+        System.out.println("Meow");
     }
-    void Dog(){
-        System.out.println("This section is for Dogs");
+    void Dog1(){
+        System.out.println("Woof");
+    }
+    void Dog2(){
+        System.out.println("Woooof");
     }
 }
