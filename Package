@@ -52,3 +52,68 @@ return div;
 } 
 }
 
+
+
+
+
+
+
+// Distance converter
+// Create a package named "converter"
+package converter;
+
+// Create a class named "DistanceConverter" in the "converter" package
+public class DistanceConverter {
+
+    // Method to convert meters to kilometers
+    public static double metersToKilometers(double meters) {
+        return meters / 1000.0;
+    }
+
+    // Method to convert miles to kilometers
+    public static double milesToKilometers(double miles) {
+        return miles * 1.60934;
+    }
+
+    // Method to convert kilometers to miles
+    public static double kilometersToMiles(double kilometers) {
+        return kilometers / 1.60934;
+    }
+
+    // Method to convert kilometers to meters
+    public static double kilometersToMeters(double kilometers) {
+        return kilometers * 1000.0;
+    }
+}
+
+
+
+
+
+// Create a package named "main"
+package main;
+
+// Import the "converter" package to use the DistanceConverter class
+import converter.DistanceConverter;
+
+public class Main {
+
+    public static void main(String[] args) {
+        // Example conversions
+        double meters = 1000.0;
+        double miles = 10.0;
+
+        // Convert meters to kilometers
+        double metersToKm = DistanceConverter.metersToKilometers(meters);
+        System.out.println(meters + " meters is equal to " + metersToKm + " kilometers");
+
+        // Convert miles to kilometers
+        double milesToKm = DistanceConverter.milesToKilometers(miles);
+        System.out.println(miles + " miles is equal to " + milesToKm + " kilometers");
+
+        // Convert kilometers to miles
+        double kmToMiles = DistanceConverter.kilometersToMiles(metersToKm);
+        System.out.println(metersToKm + " kilometers is equal to " + kmToMiles + " miles");
+    }
+}
+
