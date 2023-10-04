@@ -1,0 +1,110 @@
+//DATA ENTRY EXCEPTION
+public class DataEntryException extends Exception {
+    public DataEntryException(String message) {
+        super(message);
+    }
+    
+    @Override
+    public String getMessage() {
+        return "Invalid integer data: " + super.getMessage();
+    }
+}
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class GetIDAndAge {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            try {
+                System.out.print("Enter ID number (0-999): ");
+                int id = scanner.nextInt();
+                
+                if (id == 0) {
+                    break;  // Exit the loop if ID is 0
+                }
+                
+                if (id < 0 || id > 999) {
+                    throw new DataEntryException("ID is not in the valid range (0-999)");
+                }
+
+                System.out.print("Enter age (0-119): ");
+                int age = scanner.nextInt();
+
+                if (age == 0) {
+                    break;  // Exit the loop if age is 0
+                }
+
+                if (age < 0 || age > 119) {
+                    throw new DataEntryException("Age is not in the valid range (0-119)");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                scanner.nextLine(); // Consume the invalid input
+            } catch (DataEntryException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+//COMMON PROGRAMM
+public class ExceptionHandlingExample {
+    public static void main(String[] args) {
+        // Arithmetic Exception
+        try {
+            int result = divideByZero();
+            System.out.println("Result of division: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Arithmetic Exception: " + e.getMessage());
+        }
+
+        // ArrayIndexOutOfBoundsException
+        try {
+            int[] arr = {1, 2, 3};
+            int element = getElementAtIndex(arr, 4);
+            System.out.println("Element at index 4: " + element);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("ArrayIndexOutOfBoundsException: " + e.getMessage());
+        }
+
+        // NumberFormatException
+        try {
+            String str = "abc";
+            int number = parseIntFromString(str);
+            System.out.println("Parsed integer: " + number);
+        } catch (NumberFormatException e) {
+            System.out.println("NumberFormatException: " + e.getMessage());
+        }
+
+        // StringIndexOutOfBoundsException
+        try {
+            String text = "Hello";
+            char character = getCharacterAtIndex(text, 10);
+            System.out.println("Character at index 10: " + character);
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("StringIndexOutOfBoundsException: " + e.getMessage());
+        }
+    }
+
+    public static int divideByZero() {
+        return 5 / 0;
+    }
+
+    public static int getElementAtIndex(int[] arr, int index) {
+        return arr[index];
+    }
+
+    public static int parseIntFromString(String str) {
+        return Integer.parseInt(str);
+    }
+
+    public static char getCharacterAtIndex(String text, int index) {
+        return text.charAt(index);
+    }
+}
