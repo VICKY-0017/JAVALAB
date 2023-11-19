@@ -1,0 +1,166 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class Food {
+    private String name;
+    private double price;
+
+    public Food(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}
+
+class Order {
+    private Map<Food, Integer> items;
+
+    public Order() {
+        this.items = new HashMap<>();
+    }
+
+    public void addItem(Food food, int quantity) {
+        items.put(food, items.getOrDefault(food, 0) + quantity);
+    }
+
+    public Map<Food, Integer> getItems() {
+        return items;
+    }
+
+    public double calculateTotal() {
+        return items.entrySet().stream()
+                .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
+                .sum();
+    }
+}
+
+class Customer {
+    private String name;
+    private Order currentOrder;
+
+    public Customer(String name) {
+        this.name = name;
+        this.currentOrder = new Order();
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void placeOrder(Order currentOrder2) {
+    }
+}
+
+class FoodOrderingWindow extends JFrame {
+    private List<Food> menu;
+    private Customer customer;
+
+    private JTextArea orderTextArea;
+
+    public FoodOrderingWindow() {
+        this.menu = new ArrayList<>();
+        this.customer = new Customer("John Doe");
+
+        // Adding items to the menu
+        menu.add(new Food("Burger", 5.99));
+        menu.add(new Food("Pizza", 8.99));
+        menu.add(new Food("Salad", 4.99));
+
+        // Initialize GUI components
+        setTitle("Food Ordering System");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        createComponents();
+
+        // Set the window to be visible
+        setVisible(true);
+    }
+
+    private void createComponents() {
+        // Create a panel for the menu
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new GridLayout(menu.size(), 1));
+
+        for (Food food : menu) {
+            JButton addButton = new JButton(food.getName() + " - $" + food.getPrice());
+            addButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Add the selected food item to the current order
+                    customer.getCurrentOrder().addItem(food, 1);
+                    updateOrderTextArea();
+                }
+            });
+            menuPanel.add(addButton);
+        }
+
+        // Create a panel for the order and total
+        JPanel orderPanel = new JPanel();
+        orderPanel.setLayout(new BorderLayout());
+
+        orderTextArea = new JTextArea();
+        orderTextArea.setEditable(false);
+        orderPanel.add(new JScrollPane(orderTextArea), BorderLayout.CENTER);
+
+        JButton placeOrderButton = new JButton("Place Order");
+        placeOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Place the current order
+                customer.placeOrder(customer.getCurrentOrder());
+                updateOrderTextArea();
+                JOptionPane.showMessageDialog(FoodOrderingWindow.this, "Order placed successfully!");
+            }
+        });
+        orderPanel.add(placeOrderButton, BorderLayout.SOUTH);
+
+        // Create a main panel to hold the menu and order panels
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(1, 2));
+        mainPanel.add(menuPanel);
+        mainPanel.add(orderPanel);
+
+        // Add the main panel to the content pane
+        getContentPane().add(mainPanel);
+    }
+
+    private void updateOrderTextArea() {
+        // Update the text area with the current order details
+        Order currentOrder = customer.getCurrentOrder();
+        StringBuilder orderText = new StringBuilder("Current Order:\n");
+        for (Map.Entry<Food, Integer> entry : currentOrder.getItems().entrySet()) {
+            orderText.append(entry.getKey().getName()).append(" x").append(entry.getValue()).append("\n");
+        }
+        orderText.append("Total: $").append(currentOrder.calculateTotal());
+        orderTextArea.setText(orderText.toString());
+    }
+}
+
+public class FoodOrderingApp {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new FoodOrderingWindow();
+            }
+        });
+    }
+}
